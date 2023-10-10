@@ -1,25 +1,54 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
 
-function App() {
+function WordCounter() {
+  const [state, setState] = React.useState({
+    wordCount: 0,
+  });
+
+  const handleKeyPress = (e) => {
+    const count = e.target.value;
+
+    const countWords = (count) => {
+      if (count.length === 0) {
+        return 0;
+      } else {
+        count = count.replace(/(^\s*)|(\s*$)/gi, "");
+        count = count.replace(/[ ]{2,}/gi, " ");
+        count = count.replace(/\n /, "\n");
+        return count.split(" ").length;
+      }
+    };
+
+    setState({
+      wordCount: countWords(count),
+    });
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div
+      id="container"
+      style={{
+        position: "absolute",
+        top: "20%",
+        left: "50%",
+        transform: "translate(-50%, -50%)",
+        border: "1px solid lightgray",
+        padding: "10px",
+      }}
+    >
+      <h1>
+        Responsive Paragraph Word<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Counter
+      </h1>
+      <textarea
+        placeholder="Type here"
+        onChange={handleKeyPress}
+        style={{ width: "97%", height: "100px", padding: "5px" }}
+      ></textarea>
+      <div>
+        <strong>Word Count:</strong> <span className="num">{state.wordCount}</span>
+      </div>
     </div>
   );
 }
 
-export default App;
+export default WordCounter;
